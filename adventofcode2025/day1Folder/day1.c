@@ -21,21 +21,23 @@ int day1(){
         number = atoi(buffer + 1);
 
         if(direction == 'R'){
+            
+            int rotations = (current_pos + number) / 100;
+            counter += rotations;
             current_pos = (current_pos + number) % 100;
-            if(current_pos == 0){
-                counter++;
-            }
 
         }else if (direction == 'L'){
+            int distance_past_zero = number - current_pos;
 
+            if (distance_past_zero > 0) {
+                counter += 1; 
+                counter += (distance_past_zero - 1) / 100;
+            }
+    
             current_pos = (current_pos - number) % 100;
-
-            if(current_pos < 0){
+            if (current_pos < 0){
             current_pos += 100;
-            }
-            if (current_pos == 0){
-                counter++;
-            }
+            }   
 
         }else{
             fclose(fptr);
