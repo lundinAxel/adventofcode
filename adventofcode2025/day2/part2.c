@@ -5,7 +5,9 @@
 long long giftShop(){
     long long sumId = 0, startId, lastId;
     FILE* fptr;
-    char strId[30], strFirstHalf[20], strSecondHalf[20];
+    char strId[30], strFirstHalf[20], strSecondHalf[20], 
+    strPattern[20], strPatternCmp[20];
+
 
 
     fptr = fopen("input.txt", "r");
@@ -20,30 +22,33 @@ long long giftShop(){
         
         for (long long i = startId; i <= lastId; i++){
             int count = 0;
-
-            sprintf(strId, "%lld", i);
-            //printf("integer i: %d to string: %s\n", i, strId);
+            int isInvalid = 0;
             
+            sprintf(strId, "%lld", i);
+            int len = strlen(strId);
             int half = strlen(strId) / 2;
-            for (int j = 0; j < half; j++){
-                strFirstHalf[j] = strId[j];
-            }
-            strFirstHalf[half] = '\0';
 
-            for (int k = half; k < strlen(strId); k++){
-                strSecondHalf[count] = strId[k];
-                count++;
+            for (int P = 1; P <= (half); P++){
+                if ((len % P) == 0){
+                    int allMatch = 1;
+                    for (int l = 0; l < len - P; l++){
+                        if (strId[l] != strId[l + P]) {
+                            allMatch = 0;
+                            break;
+                        }
+                    }
+                    if (allMatch) {
+                        isInvalid = 1;
+                        break;
+                    }
+                }
             }
-            strSecondHalf[count] = '\0';
 
-            if (strcmp(strFirstHalf, strSecondHalf) == 0){
-                //printf("its the same\n");
+            if (isInvalid) {
                 sumId += i;
             }
-
         }
     }
-
 
     return sumId;
 }
